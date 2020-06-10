@@ -1,12 +1,10 @@
 import React from 'react';
-
 import './App.css';
-import Resize from './Components/Resize';
-import Upload from './Components/Upload';
+import ResizableImage from './Components/ResizableImage';
 function App() {
 	return (
 		<div className="App">
-			<Upload />
+			<ResizableImage maxWidth={200} static={false} />
 		</div>
 	);
 }

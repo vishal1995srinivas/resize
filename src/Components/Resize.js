@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Resizable } from 'react-resizable';
-// import Resizable from '../lib/Resizable';
-import { ResizableBox } from 'react-resizable';
+import ResizableBox from 'react-resizable';
 import Image from './big.jpg';
 import './styles.css';
 import './test.css';
@@ -132,9 +130,6 @@ export default class TestLayout extends Component {
 				>
 					<img onLoad={this.onImgLoad} className="image" src={Image} alt="Image" />
 				</ResizableBox>
-				{/* <ResizableBox className="box" width={200} height={200} axis="none">
-						<span className="text">Not resizable ("none" axis).</span>
-					</ResizableBox> */}
 			</div>
 		);
 	}

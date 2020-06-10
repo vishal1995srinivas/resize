@@ -2,12 +2,12 @@ import React from 'react';
 import { ResizableBox } from 'react-resizable';
 import './styles.css';
 import './test.css';
-class Upload extends React.Component {
+class StaticImage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			file: null,
-			width: 400,
+			width: 0,
 			height: 0,
 			imageStatus: 'loading',
 			dimensions: {}
@@ -23,19 +23,8 @@ class Upload extends React.Component {
 		this.setState({ width: size.width, height: size.height });
 	};
 	onImgLoad = ({ target: img }) => {
-		if (img.offsetWidth > this.state.width) {
-			console.log(img.offsetWidth);
-			this.setState({
-				imageStatus: 'loaded',
-				width: 400,
-				height: img.offsetHeight,
-				dimensions: {
-					height: img.offsetHeight,
-					width: img.offsetWidth
-				}
-			});
-		} else {
-			//console.log(img.offsetWidth);
+		console.log(img.naturalWidth, img.naturalHeight);
+		if (this.props.maxWidth >= img.naturalWidth) {
 			this.setState({
 				imageStatus: 'loaded',
 				width: img.offsetWidth,
@@ -45,11 +34,24 @@ class Upload extends React.Component {
 					width: img.offsetWidth
 				}
 			});
+		} else {
+			this.setState({
+				imageStatus: 'loaded',
+				width: this.props.maxWidth,
+				height: img.offsetHeight,
+				dimensions: {
+					height: img.offsetHeight,
+					width: img.offsetWidth
+				}
+			});
 		}
 	};
+	componentDidMount() {
+		this.setState({ width: this.props.maxWidth });
+	}
 	render() {
 		const { width, height, dimensions, file } = this.state;
-		console.log(dimensions);
+		console.log(dimensions, width, height);
 		return (
 			<div>
 				<div className="Upload">
@@ -57,20 +59,6 @@ class Upload extends React.Component {
 				</div>
 				{file && (
 					<div>
-						<div className="Resize">
-							<ResizableBox
-								className="box"
-								align="center"
-								width={width}
-								height={height}
-								lockAspectRatio={true}
-								axis="both"
-								maxConstraints={[ width, height ]}
-								resizeHandles={[ 'ne', 'sw', 'nw', 'se' ]}
-							>
-								<img onLoad={this.onImgLoad} className="image" src={file} alt="Image" />
-							</ResizableBox>
-						</div>
 						<div className="Static">
 							<ResizableBox
 								className="box"
@@ -90,4 +78,4 @@ class Upload extends React.Component {
 		);
 	}
 }
-export default Upload;
+export default StaticImage;
